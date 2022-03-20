@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../model/user.model");
+const jwt = require("jsonwebtoken");
 
 router.post("/register", (req, res) => {
 	const { username, password } = req.body;
@@ -25,8 +26,15 @@ router.post("/login", (req, res) => {
 					message: "Wrong password",
 				});
 			}
+			const accessToken = jwt.sign(
+				{ _id: user._id, isAdmin: user.isAdmin },
+				process.env.TOKEN_SECRET
+			);
 			res.status(200).json({
 				message: "User logged in successfully",
+				username: user.username,
+				isAdmin: user.isAdmin,
+				accessToken,
 			});
 		})
 		.catch((err) => res.status(400).json(err));
