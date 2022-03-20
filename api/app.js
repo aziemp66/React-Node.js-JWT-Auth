@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(authRoutes);
 
 connect().then(() => {
-	app.listen(process.env.PORT || 3000, () => {
+	app.listen(process.env.PORT || 5000, () => {
 		console.log("Server started");
 	});
 });
